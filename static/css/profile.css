@@ -1,0 +1,117 @@
+body {
+    margin: 0;
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+header {
+    background-color: #1e1e1e;
+    padding: 1rem 0.5rem;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.profile-navbar {
+    max-width: 900px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.profile-navbar a {
+    background-color: #2a2a2a;
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+}
+
+.profile-navbar a:hover {
+    background-color: #4ea1f3;
+    color: #000;
+}
+
+.profile-container {
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-card {
+    background-color: #1e1e1e;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    display: flex;
+    gap: 1.5rem;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.03);
+    align-items: center;
+    margin-bottom: 2rem;
+    width: 100%;
+    max-width: 600px;
+}
+
+.profile-photo img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    border: 2px solid #4ea1f3;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.profile-info p {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.publications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.publication {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(255, 255, 255, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.publication:hover {
+    transform: scale(1.02);
+}
+
+.publication img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.pub-text {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+    color: #ddd;
+}

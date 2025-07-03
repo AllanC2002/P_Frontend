@@ -1,0 +1,99 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #000000;
+    color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.register-container {
+    background-color: #000000;
+    padding: 2.5rem;
+    border-radius: 12px;
+    border: 1px solid #ffffff;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.05);
+    width: 380px;
+    transition: all 0.3s ease;
+}
+
+.register-container:hover {
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    background-color: #000000;
+    border: 1px solid #555;
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    transition: border 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus {
+    outline: none;
+    border-color: #4ea1f3;
+}
+
+input::placeholder {
+    color: #aaa;
+}
+
+label {
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+    display: block;
+    color: #ccc;
+}
+
+button {
+    width: 100%;
+    padding: 0.75rem;
+    background: linear-gradient(135deg, #3a75f4, #295ecf);
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #295ecf, #3a75f4);
+}
+
+.login-link {
+    margin-top: 1.2rem;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.login-link a {
+    color: #4ea1f3;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}

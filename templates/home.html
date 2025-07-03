@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome - MySocialApp</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+</head>
+<body>
+    <div class="intro-container">
+        <div class="intro-left">
+            <img src="{{ url_for('static', filename='images/preview.png') }}" alt="App preview" />
+        </div>
+        <div class="intro-right">
+            <h1>Welcome to <span class="brand">MySocialApp</span></h1>
+            <p>Connect with friends, share your moments, and explore new content — all in one place.</p>
+            <div class="buttons">
+                <a href="/login" class="btn">Log In</a>
+                <a href="/register" class="btn outline">Register</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

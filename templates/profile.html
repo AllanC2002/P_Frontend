@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile - MySocialApp</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+</head>
+<body>
+    <header>
+        <nav class="profile-navbar">
+            <a href="/edit_profile">EDIT</a>
+            <a href="/followers">Followers</a>
+            <a href="/following">Following</a>
+        </nav>
+    </header>
+
+    <main class="profile-container">
+        <div class="profile-card">
+            <div class="profile-photo">
+                <img src="{{ url_for('static', filename=user.photo) }}" alt="Profile Photo">
+            </div>
+            <div class="profile-info">
+                <p><strong>Name:</strong> {{ user.name }}</p>
+                <p><strong>Lastname:</strong> {{ user.lastname }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Description:</strong> {{ user.description }}</p>
+            </div>
+        </div>
+
+        <div class="publications-grid">
+            {% for pub in publications %}
+            <div class="publication">
+                <img src="{{ url_for('static', filename=pub.image) }}" alt="Publication Image">
+                <div class="pub-text">{{ pub.text }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>

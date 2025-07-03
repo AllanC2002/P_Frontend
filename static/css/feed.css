@@ -15,11 +15,11 @@ header {
 }
 
 .navbar {
-    max-width: 900px;
+    max-width: 1000px;
     margin: auto;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
     gap: 1rem;
 }
@@ -71,22 +71,42 @@ header {
 
 .feed-container {
     padding: 2rem;
-    max-width: 600px;
+    max-width: 700px;
     margin: auto;
     display: flex;
     flex-direction: column;
     gap: 2rem;
 }
 
-.post {
-    background-color: #1e1e1e;
-    border: 1px solid #2a2a2a;
-    border-radius: 12px;
-    padding: 1rem;
-    box-shadow: 0 3px 8px rgba(255, 255, 255, 0.03);
-    transition: transform 0.2s ease;
+h2 {
+    text-align: center;
+    margin-bottom: 1rem;
 }
 
-.post:hover {
-    transform: scale(1.01);
+.post {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(255, 255, 255, 0.03);
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-bottom: 0.5rem;
+}
+
+.post-text {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.post-image {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
 }

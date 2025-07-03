@@ -2,39 +2,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Profile - MySocialApp</title>
+    <title>My Profile</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
 </head>
 <body>
     <header>
-        <nav class="profile-navbar">
-            <a href="/edit_profile">EDIT</a>
-            <a href="/followers">Followers</a>
-            <a href="/following">Following</a>
+        <nav class="navbar">
+            <div class="nav-links">
+                <a href="/profile">Profile</a>
+                <a href="/edit">Edit</a>
+                <a href="/following">Following</a>
+                <a href="/followers">Followers</a>
+                <a href="/logout">Logout</a>
+            </div>
         </nav>
     </header>
 
     <main class="profile-container">
-        <div class="profile-card">
-            <div class="profile-photo">
-                <img src="{{ url_for('static', filename=user.photo) }}" alt="Profile Photo">
+        <h2>My Profile</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <p class="flash {{ category }}">{{ message }}</p>
+                {% endfor %}
             </div>
-            <div class="profile-info">
-                <p><strong>Name:</strong> {{ user.name }}</p>
-                <p><strong>Lastname:</strong> {{ user.lastname }}</p>
-                <p><strong>Email:</strong> {{ user.email }}</p>
-                <p><strong>Description:</strong> {{ user.description }}</p>
-            </div>
+        {% endif %}
+        {% endwith %}
+
+        <div class="profile-header">
+            {% if photo_data %}
+                <img class="profile-photo" src="{{ photo_data }}" alt="Profile Photo">
+            {% else %}
+                <p>No profile photo available.</p>
+            {% endif %}
         </div>
 
-        <div class="publications-grid">
+        <section class="new-post">
+            <h3>Create New Publication</h3>
+            <form action="/profile" method="post">
+                <textarea name="text" placeholder="What's on your mind?" rows="4" required></textarea>
+                <button type="submit">Publish</button>
+            </form>
+        </section>
+
+        <section class="publications">
+            <h3>My Publications</h3>
             {% for pub in publications %}
-            <div class="publication">
-                <img src="{{ url_for('static', filename=pub.image) }}" alt="Publication Image">
-                <div class="pub-text">{{ pub.text }}</div>
+            <div class="post">
+                <div class="post-header">
+                    <span><strong>Date:</strong> {{ pub.Datepublish }}</span>
+                    <form action="/delete-publication" method="post" style="display:inline;">
+                        <input type="hidden" name="publication_id" value="{{ pub.Publication_id }}">
+                        <button type="submit" class="delete-btn">🗑</button>
+                    </form>
+                </div>
+                <p class="post-text">{{ pub.Text }}</p>
+                {% if pub.Multimedia %}
+                    <img class="post-image" src="data:image/jpeg;base64,{{ pub.Multimedia }}" alt="Publication Image">
+                {% endif %}
             </div>
             {% endfor %}
-        </div>
+        </section>
     </main>
 </body>
 </html>

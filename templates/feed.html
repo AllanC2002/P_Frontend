@@ -7,29 +7,46 @@
 </head>
 <body>
     <header>
-    <nav class="navbar">
-        <div class="nav-links">
-            <a href="/feed">Feed</a>
-            <a href="/profile">Profile</a>
-            <a href="/chats">Chats</a>
-            <a href="/logout">Logout</a>
-        </div>
-        <div class="search-bar">
-            <span>🔍</span>
-            <input type="text" placeholder="Search..." />
-        </div>
-    </nav>
+        <nav class="navbar">
+            <div class="nav-links">
+                <a href="/feed">Feed</a>
+                <a href="/profile">Profile</a>
+                <a href="/chats">Chats</a>
+                <a href="/following">Following</a>
+                <a href="/followers">Followers</a>
+                <a href="/logout">Logout</a>
+            </div>
+            <div class="search-bar">
+                <span>🔍</span>
+                <input type="text" placeholder="Search..." />
+            </div>
+        </nav>
     </header>
 
     <main class="feed-container">
+        <h2>My Feed</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <p class="flash {{ category }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+
+        {% for pub in publications %}
         <div class="post">
-            <p><strong>Publication 1</strong></p>
-            <p>This is the content of publication 1.</p>
+            <div class="post-header">
+                <span><strong>User:</strong> {{ pub.user_id }}</span>
+                <span><strong>Date:</strong> {{ pub.datepublish }}</span>
+            </div>
+            <p class="post-text">{{ pub.text }}</p>
+            {% if pub.image_base64 %}
+                <img class="post-image" src="data:image/jpeg;base64,{{ pub.image_base64 }}" alt="Publication Image">
+            {% endif %}
         </div>
-        <div class="post">
-            <p><strong>Publication 2</strong></p>
-            <p>This is the content of publication 2.</p>
-        </div>
+        {% endfor %}
     </main>
 </body>
 </html>

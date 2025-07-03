@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/create_account.css') }}">
+    <title>Register - MySocialApp</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
 </head>
 <body>
     <div class="register-container">
@@ -11,7 +11,7 @@
         <form action="/register" method="post">
             <input type="text" name="Name" placeholder="First Name" required />
             <input type="text" name="Lastname" placeholder="Last Name" required />
-            <input type="email" name="User_mail" placeholder="Email" required />
+            <input type="text" name="User_mail" placeholder="Email or Username" required>
             <input type="password" name="Password" placeholder="Password" required />
 
             <label for="Id_type">Account Type:</label>
@@ -32,6 +32,16 @@
 
             <button type="submit">Register</button>
         </form>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <p class="flash {{ category }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
 
         <div class="login-link">
             <p>Already have an account? <a href="/login">Log in here</a></p>

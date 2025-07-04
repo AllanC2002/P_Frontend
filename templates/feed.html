@@ -6,26 +6,27 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/feed.css') }}">
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-            <div class="nav-links">
-                <a href="/feed">Feed</a>
-                <a href="/profile">Profile</a>
-                <a href="/chats">Chats</a>
-                <a href="/following">Following</a>
-                <a href="/followers">Followers</a>
-                <a href="/logout">Logout</a>
-            </div>
-            <div class="search-bar">
-                <span>🔍</span>
-                <input type="text" placeholder="Search..." />
-            </div>
-        </nav>
-    </header>
+<header>
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="/feed">Feed</a>
+            <a href="/profile">Profile</a>
+            <a href="/chats">Chats</a>
+            <a href="/following">Following</a>
+            <a href="/followers">Followers</a>
+            <a href="/logout">Logout</a>
+        </div>
+        <div class="search-bar">
+            <span>🔍</span>
+            <input type="text" placeholder="Search..." />
+        </div>
+    </nav>
+</header>
 
-    <main class="feed-container">
-        <h2>My Feed</h2>
-        {% with messages = get_flashed_messages(with_categories=true) %}
+<main class="feed-container">
+    <h2>My Feed</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <div class="flash-messages">
                 {% for category, message in messages %}
@@ -33,20 +34,44 @@
                 {% endfor %}
             </div>
         {% endif %}
-        {% endwith %}
+    {% endwith %}
 
-        {% for pub in publications %}
+    {% for pub in publications %}
         <div class="post">
             <div class="post-header">
                 <span><strong>User:</strong> {{ pub.user_id }}</span>
                 <span><strong>Date:</strong> {{ pub.datepublish }}</span>
             </div>
+
             <p class="post-text">{{ pub.text }}</p>
+
             {% if pub.image_base64 %}
-                <img class="post-image" src="data:image/jpeg;base64,{{ pub.image_base64 }}" alt="Publication Image">
+                <img class="post-image"
+                     src="data:image/jpeg;base64,{{ pub.image_base64 }}"
+                     alt="Publication Image">
             {% endif %}
+
+            <div class="post-actions">
+                <form method="POST" action="/toggle-like" style="display:inline;">
+                    <input type="hidden" name="publication_id" value="{{ pub.publication_id }}">
+                    {% if pub.liked_by_user %}
+                        <button type="submit">💔 Unlike</button>
+                    {% else %}
+                        <button type="submit">👍 Like</button>
+                    {% endif %}
+                </form>
+                <span>❤️ {{ pub.likes }} likes</span>
+            </div>
+
+            <div class="comment-form">
+                <form method="POST" action="/comment">
+                    <input type="hidden" name="publication_id" value="{{ pub.publication_id }}">
+                    <input type="text" name="comment" placeholder="Write a comment..." required>
+                    <button type="submit">💬 Comment</button>
+                </form>
+            </div>
         </div>
-        {% endfor %}
-    </main>
+    {% endfor %}
+</main>
 </body>
 </html>

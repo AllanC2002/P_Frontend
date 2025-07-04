@@ -27,29 +27,31 @@
         {% endwith %}
     </div>
 
-    <div class="photo-section">
+    <!-- Sección de foto -->
+    <section class="edit-section">
+        <h2>Update Profile Photo</h2>
         <form method="POST" enctype="multipart/form-data">
             {% if photo_url %}
                 <img src="{{ photo_url }}" alt="Profile Photo" class="profile-pic">
             {% else %}
-                <p>No photo available.</p>
+                <p>No profile photo available.</p>
             {% endif %}
-            <input type="file" name="new_photo">
+            <input type="file" name="new_photo" accept="image/*">
             <button type="submit" name="action" value="update_photo">Upload Photo</button>
         </form>
-    </div>
+    </section>
 
-    <div class="form-section">
+    <!-- Sección de información pública -->
+    <section class="edit-section">
+        <h2>Edit Public Info</h2>
         <form method="POST">
-            <h2>Edit Public Info</h2>
-
-            <label for="type">Type</label>
+            <label for="type">Account Type:</label>
             <select name="type">
                 <option value="1" {% if user_data.type == 1 %}selected{% endif %}>Personal</option>
                 <option value="2" {% if user_data.type == 2 %}selected{% endif %}>Business</option>
             </select>
 
-            <label for="preferences">Preferences</label>
+            <label for="preferences">Preferences:</label>
             <select name="preferences">
                 <option value="1" {% if user_data.preferences == 1 %}selected{% endif %}>Music</option>
                 <option value="2" {% if user_data.preferences == 2 %}selected{% endif %}>Travel</option>
@@ -59,29 +61,29 @@
                 <option value="6" {% if user_data.preferences == 6 %}selected{% endif %}>Comedy</option>
             </select>
 
-            <label for="description">Description</label>
-            <textarea name="description">{{ user_data.description }}</textarea>
+            <label for="description">Description:</label>
+            <textarea name="description" placeholder="Describe yourself...">{{ user_data.description }}</textarea>
 
             <button type="submit" name="action" value="update_info">Update Info</button>
         </form>
-    </div>
+    </section>
 
-    <div class="form-section">
+    <!-- Sección de datos personales -->
+    <section class="edit-section">
+        <h2>Change Name or Password</h2>
         <form method="POST">
-            <h2>Change Personal Info or Password</h2>
-
-            <label for="name">Name</label>
+            <label for="name">Name:</label>
             <input type="text" name="name" placeholder="Your name" value="{{ user_data.name }}">
 
-            <label for="lastname">Lastname</label>
+            <label for="lastname">Lastname:</label>
             <input type="text" name="lastname" placeholder="Your last name" value="{{ user_data.lastname }}">
 
-            <label for="new_password">New Password</label>
+            <label for="new_password">New Password:</label>
             <input type="password" name="new_password" placeholder="New password">
 
             <button type="submit" name="action" value="update_password">Update User</button>
         </form>
-    </div>
+    </section>
 
 </main>
 

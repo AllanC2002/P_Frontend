@@ -38,7 +38,7 @@ def edit():
                 try:
                     files = {"file": (file.filename, file.stream, file.content_type)}
                     resp = requests.post(UPLOAD_PHOTO_URL, files=files, headers=headers)
-                    if resp.status_code == 200:
+                    if resp.status_code in [200,201]:
                         flash("Profile photo updated.", "success")
                         return redirect(url_for("edit"))
                     else:
@@ -60,7 +60,7 @@ def edit():
             else:
                 try:
                     resp = requests.patch(UPDATE_PROFILE_URL, json=payload, headers=headers)
-                    if resp.status_code == 200:
+                    if resp.status_code in [200, 201]:
                         flash("Profile updated successfully.", "success")
                         return redirect(url_for("edit"))
                     else:

@@ -1,7 +1,7 @@
 import requests
 from flask import render_template, redirect, url_for, session, flash
 
-FOLLOWING_URL = "http://localhost:8080/following"
+FOLLOWING_URL = "http://52.205.152.205:8080/following"
 
 def following():
     token = session.get("token")

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Following</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='following.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <a href="{{ url_for('profile') }}">Profile</a>
+        <a href="{{ url_for('edit') }}">Edit</a>
+        <a href="{{ url_for('followers') }}">Followers</a>
+    </div>
+
+    <div class="container">
+        {% for user in following %}
+            <div class="follower-box">
+                <strong>{{ user }}</strong>
+            </div>
+        {% else %}
+            <p>No users followed yet.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

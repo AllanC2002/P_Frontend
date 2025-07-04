@@ -16,7 +16,7 @@ def profile():
 
     headers = {"Authorization": f"Bearer {token}"}
 
-    # POST: Crear publicación (texto + imagen opcional)
+    # POST: Create a new publication
     if request.method == 'POST':
         text = request.form.get("text", "").strip()
         if not text:
@@ -35,7 +35,7 @@ def profile():
                     "content_type": content_type
                 }
 
-            # Enviar publicación
+            # Send the request to create the publication
             try:
                 response = requests.post(CREATE_PUBLICATION_URL, json=payload, headers=headers)
                 if response.status_code == 200:
@@ -57,7 +57,7 @@ def profile():
 
         return redirect(url_for('profile'))
 
-    # GET: Foto de perfil
+    # GET: Photo of the user
     photo_data = None
     try:
         photo_resp = requests.get(GET_PHOTO_URL, headers=headers)
@@ -68,7 +68,7 @@ def profile():
     except:
         flash("Could not load profile photo.", "warning")
 
-    # GET: Publicaciones del usuario
+    # GET: Publications of the user
     publications = []
     try:
         pub_resp = requests.get(GET_PUBLICATIONS_URL, headers=headers)

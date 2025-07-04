@@ -1,5 +1,5 @@
 from flask import Flask, session, redirect, url_for
-from routes import home, login, feed, profile, register  
+from routes import home, login, feed, profile, register, edit, followers, following  
 import os
 from dotenv import load_dotenv
 from functools import wraps
@@ -27,6 +27,9 @@ app.add_url_rule('/register', view_func=register.register, methods=['GET', 'POST
 app.add_url_rule('/feed', view_func=login_required(feed.feed), methods=['GET', 'POST'])
 app.add_url_rule('/profile', view_func=login_required(profile.profile), methods=['GET', 'POST'])
 app.add_url_rule('/delete-publication', view_func=login_required(profile.delete_publication), methods=['POST'])
+app.add_url_rule('/edit', view_func=login_required(edit.edit), methods=['GET', 'POST'])
+app.add_url_rule('/followers', view_func=login_required(followers.followers), methods=['GET'])
+app.add_url_rule('/following', view_func=login_required(following.following), methods=['GET']) 
 
 
 if __name__ == '__main__':

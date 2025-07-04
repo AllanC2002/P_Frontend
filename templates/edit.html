@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/edit.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('profile.profile') }}">Profile</a>
+    </nav>
+
+    <div class="edit-container">
+        <div class="photo-section">
+            <form method="POST" enctype="multipart/form-data">
+                <img src="{{ photo_url }}" alt="Profile Photo" class="profile-pic">
+                <input type="file" name="new_photo">
+                <button type="submit" name="action" value="update_photo">Upload Photo</button>
+            </form>
+        </div>
+
+        <div class="form-section">
+            <form method="POST">
+                <h2>Edit Personal Info</h2>
+                <label>Name</label>
+                <input type="text" name="name" value="{{ user_data.name }}" required>
+
+                <label>Lastname</label>
+                <input type="text" name="lastname" value="{{ user_data.lastname }}" required>
+
+                <label>Preferences</label>
+                <select name="preferences" required>
+                    <option value="1" {% if user_data.preferences == 1 %}selected{% endif %}>Music</option>
+                    <option value="2" {% if user_data.preferences == 2 %}selected{% endif %}>Travel</option>
+                    <option value="3" {% if user_data.preferences == 3 %}selected{% endif %}>Sports</option>
+                    <option value="4" {% if user_data.preferences == 4 %}selected{% endif %}>Cinema</option>
+                    <option value="5" {% if user_data.preferences == 5 %}selected{% endif %}>Theater</option>
+                    <option value="6" {% if user_data.preferences == 6 %}selected{% endif %}>Comedy</option>
+                </select>
+
+                <label>Type</label>
+                <select name="type" required>
+                    <option value="1" {% if user_data.type == 1 %}selected{% endif %}>Personal</option>
+                    <option value="2" {% if user_data.type == 2 %}selected{% endif %}>Business</option>
+                </select>
+
+                <label>Description</label>
+                <textarea name="description" required>{{ user_data.description }}</textarea>
+
+                <button type="submit" name="action" value="update_info">Update Info</button>
+            </form>
+        </div>
+
+        <div class="form-section">
+            <form method="POST">
+                <h2>Change Password</h2>
+                <label>New Password</label>
+                <input type="password" name="new_password" required>
+                <button type="submit" name="action" value="update_password">Update Password</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

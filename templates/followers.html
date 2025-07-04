@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Followers</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/followers.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/profile" class="nav-btn">Profile</a>
+        <a href="/edit" class="nav-btn">Edit</a>
+        <a href="/following" class="nav-btn">Following</a>
+        <a href="/logout" class="nav-btn">Logout</a>
+    </nav>
+
+    <main class="followers-container">
+        <h2>Followers</h2>
+        {% if followers %}
+            {% for follower in followers %}
+                <div class="follower-card">
+                    <p><strong>{{ follower }}</strong></p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-followers">You have no followers yet.</p>
+        {% endif %}
+    </main>
+</body>
+</html>

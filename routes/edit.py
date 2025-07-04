@@ -1,97 +1,100 @@
 import requests
-from flask import render_template, request, redirect, url_for, flash, session
+import base64
+from flask import render_template, request, session, flash, redirect, url_for
 
-# Endpoints
+# URLs de los microservicios
+GET_PHOTO_URL = "http://174.129.238.113:8080/get-photo"
+UPLOAD_PHOTO_URL = "http://13.219.191.189:8080/upload-photo"
 UPDATE_PROFILE_URL = "http://44.214.216.202:8080/update-profile"
 UPDATE_USER_URL = "http://13.219.132.102:8080/update-user"
-UPLOAD_PHOTO_URL = "http://13.219.191.189:8080/upload-photo"
-GET_PHOTO_URL = "http://174.129.238.113:8080/get-photo"
 
 def edit():
-    if "token" not in session:
-        flash("You must be logged in to edit your profile.", "error")
-        return redirect(url_for('login'))
+    token = session.get("token")
+    if not token:
+        flash("You must be logged in.", "error")
+        return redirect(url_for("login"))
 
-    token = session["token"]
     headers = {"Authorization": f"Bearer {token}"}
 
-    # Subir foto de perfil
-    if request.method == "POST" and request.form.get("action") == "update_photo":
-        image = request.files.get("new_photo")
-        if not image or image.filename == "":
-            flash("No photo selected.", "error")
-        else:
-            try:
-                files = {"file": image}
-                response = requests.post(UPLOAD_PHOTO_URL, headers=headers, files=files)
-                if response.status_code == 200:
-                    flash("Profile photo updated successfully.", "success")
-                else:
-                    flash(response.json().get("message", "Failed to upload photo."), "error")
-            except Exception:
-                flash("Upload service unreachable.", "error")
-        return redirect(url_for("edit"))
-
-    # Editar info personal
-    elif request.method == "POST" and request.form.get("action") == "update_info":
-        success = True
-
-        # Enviar a update-user (nombre, apellido y contraseña)
-        user_data = {
-            "Name": request.form.get("name"),
-            "Lastname": request.form.get("lastname"),
-            "Password": request.form.get("password")
-        }
-
-        try:
-            user_response = requests.patch(UPDATE_USER_URL, json=user_data, headers=headers)
-            if user_response.status_code != 200:
-                flash("Failed to update name/lastname/password.", "error")
-                success = False
-        except Exception:
-            flash("User update service unreachable.", "error")
-            success = False
-
-        # Enviar a update-profile (preferencias, tipo, descripción)
-        profile_data = {
-            "Description": request.form.get("description"),
-            "Id_preferences": int(request.form.get("preferences")),
-            "Id_type": int(request.form.get("type"))
-        }
-
-        try:
-            profile_response = requests.patch(UPDATE_PROFILE_URL, json=profile_data, headers=headers)
-            if profile_response.status_code != 200:
-                flash("Failed to update profile info.", "error")
-                success = False
-        except Exception:
-            flash("Profile update service unreachable.", "error")
-            success = False
-
-        if success:
-            flash("Profile updated successfully.", "success")
-
-        return redirect(url_for("edit"))
-
-    # GET: Cargar imagen de perfil para mostrar
+    # --- FOTO DE PERFIL ---
     photo_url = None
     try:
-        photo_resp = requests.get(GET_PHOTO_URL, headers=headers)
-        if photo_resp.status_code == 200:
-            content_type = photo_resp.headers.get("Content-Type", "image/jpeg")
-            import base64
-            encoded_image = base64.b64encode(photo_resp.content).decode("utf-8")
-            photo_url = f"data:{content_type};base64,{encoded_image}"
+        response = requests.get(GET_PHOTO_URL, headers=headers)
+        if response.status_code == 200:
+            content_type = response.headers.get("Content-Type", "image/jpeg")
+            encoded = base64.b64encode(response.content).decode("utf-8")
+            photo_url = f"data:{content_type};base64,{encoded}"
     except:
-        pass
+        flash("Could not load profile photo.", "warning")
 
-    # Datos para poblar el formulario (pueden venir de sesión o simulado)
+    # --- PROCESAR FORMULARIOS POST ---
+    if request.method == "POST":
+        action = request.form.get("action")
+
+        # SUBIR NUEVA FOTO
+        if action == "update_photo":
+            file = request.files.get("new_photo")
+            if file and file.filename:
+                try:
+                    files = {"file": (file.filename, file.stream, file.content_type)}
+                    resp = requests.post(UPLOAD_PHOTO_URL, files=files, headers=headers)
+                    if resp.status_code == 200:
+                        flash("Profile photo updated.", "success")
+                        return redirect(url_for("edit"))
+                    else:
+                        flash("Failed to upload photo.", "error")
+                except:
+                    flash("Photo upload service unreachable.", "error")
+            else:
+                flash("No photo selected.", "warning")
+
+        # ACTUALIZAR INFO DE PERFIL
+        elif action == "update_info":
+            payload = {}
+            if request.form.get("type"): payload["Id_type"] = int(request.form.get("type"))
+            if request.form.get("preferences"): payload["Id_preferences"] = int(request.form.get("preferences"))
+            if request.form.get("description"): payload["Description"] = request.form.get("description").strip()
+
+            if not payload:
+                flash("No profile info provided to update.", "warning")
+            else:
+                try:
+                    resp = requests.patch(UPDATE_PROFILE_URL, json=payload, headers=headers)
+                    if resp.status_code == 200:
+                        flash("Profile updated successfully.", "success")
+                        return redirect(url_for("edit"))
+                    else:
+                        flash("Failed to update profile.", "error")
+                except:
+                    flash("Profile update service unreachable.", "error")
+
+        # CAMBIAR CONTRASEÑA Y DATOS PERSONALES
+        elif action == "update_password":
+            payload = {}
+            if request.form.get("name"): payload["Name"] = request.form.get("name").strip()
+            if request.form.get("lastname"): payload["Lastname"] = request.form.get("lastname").strip()
+            if request.form.get("new_password"): payload["Password"] = request.form.get("new_password")
+
+            if not payload:
+                flash("No data provided to update user info.", "warning")
+            else:
+                try:
+                    resp = requests.patch(UPDATE_USER_URL, json=payload, headers=headers)
+                    if resp.status_code == 200:
+                        flash("User info updated.", "success")
+                        return redirect(url_for("edit"))
+                    else:
+                        flash("Failed to update user info.", "error")
+                except:
+                    flash("User update service unreachable.", "error")
+
+    # Datos simulados para mostrar en el formulario (puedes integrar una consulta real luego)
     dummy_data = {
-        "name": "",
-        "lastname": "",
+        "name": "Allan",
+        "lastname": "Correa",
         "preferences": 1,
         "type": 1,
-        "description": ""
+        "description": "I like music."
     }
 
     return render_template("edit.html", photo_url=photo_url, user_data=dummy_data)

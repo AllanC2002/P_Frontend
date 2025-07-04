@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Following</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='following.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/following.css') }}">
 </head>
 <body>
     <div class="navbar">
@@ -15,7 +15,7 @@
     <div class="container">
         {% for user in following %}
             <div class="follower-box">
-                <strong>{{ user }}</strong>
+                <strong>{{ user["User_mail"] }}</strong>
             </div>
         {% else %}
             <p>No users followed yet.</p>

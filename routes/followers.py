@@ -3,8 +3,12 @@
 import requests
 from flask import render_template, session, redirect, url_for, flash
 
-FOLLOWERS_URL = "http://52.0.8.145:8080/followers"
-LOGIN_URL = "http://52.203.72.116:8080/login"
+#FOLLOWERS_URL = "http://52.0.8.145:8080/followers"
+#LOGIN_URL = "http://52.203.72.116:8080/login"
+#Api Gateway URLs
+FOLLOWERS_URL = "http://107.22.173.138:8080/followers"
+LOGIN_URL = "http://107.22.173.138:8080/login"
+
 
 def followers():
     token = session.get("token")

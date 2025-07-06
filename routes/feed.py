@@ -1,14 +1,20 @@
 import requests
 from flask import render_template, session, flash, request, redirect
 
-FEED_URL = "http://18.213.96.104:8080/feed"
-LIKE_URL = "http://52.204.158.214:8080/like"
-UNLIKE_URL = "http://3.222.208.200:8080/unlike"
-GET_LIKES_URL = "http://34.226.18.62:8080/get-likes"
-COMMENT_URL = "http://3.221.235.171:8080/create-comment"
+#FEED_URL = "http://54.147.87.111:8080/feed"
+#LIKE_URL = "http://52.204.158.214:8080/like"
+#UNLIKE_URL = "http://3.222.208.200:8080/unlike"
+#GET_LIKES_URL = "http://34.226.18.62:8080/get-likes"
+#COMMENT_URL = "http://3.221.235.171:8080/create-comment"
+# Api Gateway URLs
+FEED_URL = "http://107.22.173.138:8080/feed"
+LIKE_URL = "http://107.22.173.138:8080/like"
+UNLIKE_URL = "http://107.22.173.138:8080/unlike"
+GET_LIKES_URL = "http://107.22.173.138:8080/get-likes"
+COMMENT_URL = "http://107.22.173.138:8080/create-comment"
+SEARCH_URL = "http://107.22.173.138:8080/search-user"
 
 def get_likes_count(publication_id, token=None):
-    # Asegurar que sea string limpio (si viene con "$oid")
     if isinstance(publication_id, dict) and "$oid" in publication_id:
         publication_id = publication_id["$oid"]
 
@@ -124,3 +130,52 @@ def comment():
         flash(f"Comment error: {str(e)}", "error")
 
     return redirect("/feed")
+
+
+def search_user():
+    token = session.get('token')
+    if not token:
+        flash("Login required", "error")
+        return redirect("/feed")
+
+    user_mail = request.form.get("user_mail")
+    if not user_mail:
+        flash("Missing search input", "error")
+        return redirect("/feed")
+
+    try:
+        response = requests.post(SEARCH_URL, json={"user_mail": user_mail})
+        if response.status_code == 200:
+            user_data = response.json()
+            return render_template("feed.html", publications=[], searched_user=user_data)
+        else:
+            flash("User not found", "error")
+    except Exception as e:
+        flash(f"Search error: {str(e)}", "error")
+
+    return redirect("/feed")
+
+def view_user():
+    token = session.get('token')
+    if not token:
+        flash("Login required", "error")
+        return redirect("/feed")
+
+    user_mail = request.form.get("userMail")
+    if not user_mail:
+        flash("Invalid user", "error")
+        return redirect("/feed")
+
+    try:
+        response = requests.post(SEARCH_URL, json={"user_mail": user_mail})
+        if response.status_code == 200:
+            user_data = response.json()
+            return render_template("feed.html", publications=[], viewed_user=user_data)
+        else:
+            flash("Failed to fetch user profile", "error")
+    except Exception as e:
+        flash(f"Profile view error: {str(e)}", "error")
+
+    return redirect("/feed")
+
+

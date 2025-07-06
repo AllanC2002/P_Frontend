@@ -1,5 +1,5 @@
 from flask import Flask, session, redirect, url_for
-from routes import home, login, feed, profile, register, edit, followers, following  
+from routes import home, login, feed, profile, register, edit, followers, following, user, logout    
 import os
 from dotenv import load_dotenv
 from functools import wraps
@@ -27,12 +27,19 @@ app.add_url_rule('/register', view_func=register.register, methods=['GET', 'POST
 app.add_url_rule('/feed', view_func=login_required(feed.feed), methods=['GET'])
 app.add_url_rule('/comment', view_func=login_required(feed.comment), methods=['POST'])
 app.add_url_rule('/toggle-like', view_func=login_required(feed.toggle_like), methods=['POST'])
-
 app.add_url_rule('/profile', view_func=login_required(profile.profile), methods=['GET', 'POST'])
 app.add_url_rule('/delete-publication', view_func=login_required(profile.delete_publication), methods=['POST'])
 app.add_url_rule('/edit', view_func=login_required(edit.edit), methods=['GET', 'POST'])
 app.add_url_rule('/followers', view_func=login_required(followers.followers), methods=['GET'])
 app.add_url_rule('/following', view_func=login_required(following.following), methods=['GET'])
+app.add_url_rule('/search-user', view_func=login_required(feed.search_user), methods=['POST'])
+app.add_url_rule('/view-user', view_func=login_required(feed.view_user), methods=['POST'])
+app.add_url_rule('/follow-user', view_func=login_required(user.follow_user), methods=['POST'])
+app.add_url_rule('/logout', view_func=logout.logout, methods=['GET'])
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000, host="0.0.0.0")

@@ -16,7 +16,7 @@
 </header>
 
 <main class="edit-container">
-
+<div class="form-wrapper">
     <div class="flash-messages">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -27,7 +27,6 @@
         {% endwith %}
     </div>
 
-    <!-- Sección de foto -->
     <section class="edit-section">
         <h2>Update Profile Photo</h2>
         <form method="POST" enctype="multipart/form-data">
@@ -36,12 +35,16 @@
             {% else %}
                 <p>No profile photo available.</p>
             {% endif %}
-            <input type="file" name="new_photo" accept="image/*">
+            
+            <label class="custom-file-upload">
+                📷 Choose Image
+                <input type="file" name="new_photo" accept="image/*">
+            </label>
+
             <button type="submit" name="action" value="update_photo">Upload Photo</button>
         </form>
     </section>
 
-    <!-- Sección de información pública -->
     <section class="edit-section">
         <h2>Edit Public Info</h2>
         <form method="POST">
@@ -68,7 +71,6 @@
         </form>
     </section>
 
-    <!-- Sección de datos personales -->
     <section class="edit-section">
         <h2>Change Name or Password</h2>
         <form method="POST">
@@ -84,7 +86,7 @@
             <button type="submit" name="action" value="update_password">Update User</button>
         </form>
     </section>
-
+</div>
 </main>
 
 </body>

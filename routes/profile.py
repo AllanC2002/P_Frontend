@@ -2,11 +2,16 @@ import requests
 import base64
 from flask import render_template, request, session, flash, redirect, url_for
 
-# Microservicios
-GET_PHOTO_URL = "http://174.129.238.113:8080/get-photo"
-GET_PUBLICATIONS_URL = "http://3.219.144.22:8080/my-publications"
-CREATE_PUBLICATION_URL = "http://35.173.89.233:8080/create-publication"
-DELETE_PUBLICATION_URL = "http://44.219.87.84:8080/delete-publication"
+# Microservices
+#GET_PHOTO_URL = "http://174.129.238.113:8080/get-photo"
+#GET_PUBLICATIONS_URL = "http://3.219.144.22:8080/my-publications"
+#CREATE_PUBLICATION_URL = "http://35.173.89.233:8080/create-publication"
+#DELETE_PUBLICATION_URL = "http://44.219.87.84:8080/delete-publication"
+#Api Gateway URLs
+GET_PHOTO_URL = "http://107.22.173.138:8080/get-photo"
+GET_PUBLICATIONS_URL = "http://107.22.173.138:8080/my-publications"
+CREATE_PUBLICATION_URL = "http://107.22.173.138:8080/create-publication"
+DELETE_PUBLICATION_URL = "http://107.22.173.138:8080/delete-publication"
 
 def profile():
     token = session.get('token')

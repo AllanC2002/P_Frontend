@@ -1,7 +1,9 @@
 import requests
 from flask import render_template, request, redirect, url_for, flash
 
-CREATE_ACCOUNT_URL = "http://3.212.156.160:8080/create_account"
+#CREATE_ACCOUNT_URL = "http://3.212.156.160:8080/create_account"
+#Api Gateway URL
+CREATE_ACCOUNT_URL = "http://107.22.173.138:8080/create_account"
 
 def register():
     if request.method == 'POST':

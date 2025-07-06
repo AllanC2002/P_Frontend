@@ -3,10 +3,16 @@ import base64
 from flask import render_template, request, session, flash, redirect, url_for
 
 # URLs de los microservicios
-GET_PHOTO_URL = "http://174.129.238.113:8080/get-photo"
-UPLOAD_PHOTO_URL = "http://13.219.191.189:8080/upload-photo"
-UPDATE_PROFILE_URL = "http://44.214.216.202:8080/update-profile"
-UPDATE_USER_URL = "http://13.219.132.102:8080/update-user"
+#GET_PHOTO_URL = "http://174.129.238.113:8080/get-photo"
+#UPLOAD_PHOTO_URL = "http://13.219.191.189:8080/upload-photo"
+#UPDATE_PROFILE_URL = "http://44.214.216.202:8080/update-profile"
+#UPDATE_USER_URL = "http://13.219.132.102:8080/update-user"
+
+GET_PHOTO_URL = "http://107.22.173.138:8080/get-photo"
+UPLOAD_PHOTO_URL = "http://107.22.173.138:8080/upload-photo"
+UPDATE_PROFILE_URL = "http://107.22.173.138:8080/update-profile"
+UPDATE_USER_URL = "http://107.22.173.138:8080/update-user"
+
 
 def edit():
     token = session.get("token")

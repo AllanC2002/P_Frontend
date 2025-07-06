@@ -54,6 +54,14 @@ header {
     border-radius: 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.4);
 }
+.search-bar button {
+    display: flex;
+    align-items: center;
+    background-color: #363636;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    color: #ffffff;
+}
 
 .search-bar input {
     background: transparent;
@@ -110,6 +118,7 @@ h2 {
     object-fit: cover;
     border-radius: 8px;
 }
+
 .post-actions {
     display: flex;
     align-items: center;
@@ -118,9 +127,9 @@ h2 {
 }
 
 .post-actions form button {
-    background-color: #4ea1f3;
+    background-color: #4d4d4d;
     border: none;
-    color: black;
+    color: #ffffff;
     font-weight: bold;
     padding: 0.4rem 0.8rem;
     border-radius: 20px;
@@ -159,17 +168,41 @@ h2 {
 }
 
 .comment-form button {
-    background-color: #4ea1f3;
+    background-color: #3d3d3d;
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 20px;
-    color: black;
+    color: rgb(255, 255, 255);
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .comment-form button:hover {
-    background-color: #6dbbff;
+    background-color: #52adfd;
 }
 
+.search-result {
+    background-color: #000000;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    border: solid 1px #ffffff;
+    text-align: center;
+}
+
+.search-result button {
+    margin-top: 10px;
+    padding: 0.5rem 1.2rem;
+    background-color: #9b59b6;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-result button:hover {
+    background-color: #be72d8;
+}

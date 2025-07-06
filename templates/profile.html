@@ -10,6 +10,7 @@
 <header>
     <nav class="navbar">
         <div class="nav-links">
+            <a href="/feed">Feed</a>
             <a href="/profile">Profile</a>
             <a href="/edit">Edit</a>
             <a href="/following">Following</a>
@@ -40,10 +41,15 @@
     </div>
 
     <div class="new-post">
-        <form action="/profile" method="post" enctype="multipart/form-data">
-            <textarea name="text" placeholder="What's on your mind?" rows="4" required></textarea>
-            <input type="file" name="image" accept="image/*">
-            <button type="submit">Publish</button>
+    <form action="/profile" method="post" enctype="multipart/form-data">
+        <textarea name="text" placeholder="What's on your mind?" rows="4" required></textarea>
+
+        <label class="custom-file-upload">
+            📷 Choose Image
+            <input type="file" name="image" accept="image/*" />
+        </label>
+
+        <button type="submit">Publish</button>
         </form>
     </div>
 

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/feed.css') }}">
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="/feed">Feed</a>
+            <a href="/profile">Profile</a>
+            <a href="/chats">Chats</a>
+            <a href="/following">Following</a>
+            <a href="/followers">Followers</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+</header>
+
+<main class="feed-container">
+    <h2>👤 User Profile</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <p class="flash {{ category }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% if user %}
+    <div class="post">
+        <div class="post-header">
+            <span><strong>ID:</strong> {{ user.idUser }}</span>
+            <span><strong>Status:</strong> {{ "Active" if user.status == 1 else "Inactive" }}</span>
+        </div>
+
+        <p class="post-text"><strong>Name:</strong> {{ user.name }} {{ user.lastname }}</p>
+        <p class="post-text"><strong>Email:</strong> {{ user.userMail }}</p>
+    </div>
+    {% else %}
+    <p>User data is missing.</p>
+    {% endif %}
+</main>
+</body>
+</html>

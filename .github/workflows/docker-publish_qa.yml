@@ -3,11 +3,11 @@ on:
   schedule:
     - cron: '35 18 * * *'
   push:
-    branches: [ "main" ]
+    branches: [ "qa" ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "qa" ]
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -70,7 +70,7 @@ jobs:
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
 
   deploy:
-      name: main frontend deploy
+      name: qa frontend deploy
       needs: build
       runs-on: ubuntu-latest
 
@@ -78,19 +78,19 @@ jobs:
         - name: Deploy EC2
           uses: appleboy/ssh-action@v1.0.3
           with:
-            host: ${{ secrets.EC2_IP_PROD }}
+            host: ${{ secrets.EC2_IP }}
             username: ubuntu
-            key: ${{ secrets.EC2_PEM_PROD }}
+            key: ${{ secrets.EC2_PEM }}
             script: |
               docker stop project_front || true
               docker rm project_front || true
-              docker rmi ${{ secrets.DOCKER_REPO }}:main || true
+              docker rmi ${{ secrets.DOCKER_REPO }}:qa || true
 
-              docker pull ${{ secrets.DOCKER_REPO }}:main
+              docker pull ${{ secrets.DOCKER_REPO }}:qa
 
               docker run -d \
                 --restart always \
                 --name project_front \
                 -p 5000:5000 \
                 -e SECRET_KEY=${{ secrets.SECRET_KEY }} \
-                ${{ secrets.DOCKER_REPO }}:main
+                ${{ secrets.DOCKER_REPO }}:qa

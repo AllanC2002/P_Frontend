@@ -1,7 +1,9 @@
 import requests
 from flask import render_template, request, redirect, url_for, session, flash
 
-LOGIN_SERVICE_URL = "http://52.203.72.116:8080/login"
+#LOGIN_SERVICE_URL = "http://52.203.72.116:8080/login"
+
+LOGIN_SERVICE_URL = "http://107.22.173.138:8080/login" # Api Gateway
 
 def login():
     if request.method == 'POST':

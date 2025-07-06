@@ -17,8 +17,11 @@
             <a href="/logout">Logout</a>
         </div>
         <div class="search-bar">
-            <span>🔍</span>
-            <input type="text" placeholder="Search..." />
+            <form method="POST" action="/search-user" style="display: flex; align-items: center;">
+                <span>🔍</span>
+                <input type="text" name="user_mail" placeholder="Search user..." required>
+                <button type="submit">Search</button>
+            </form>
         </div>
     </nav>
 </header>
@@ -72,6 +75,34 @@
             </div>
         </div>
     {% endfor %}
-</main>
+
+    {% if searched_user %}
+    <div class="search-result">
+        <h3>🔎 Search Result:</h3>
+        <p><strong>{{ searched_user.name }} {{ searched_user.lastname }}</strong> ({{ searched_user.userMail }})</p>
+
+        <form action="/view-user" method="POST" style="display:inline;">
+            <input type="hidden" name="userMail" value="{{ searched_user.userMail }}">
+            <button type="submit">👁️ View Profile</button>
+        </form>
+
+        <form action="/follow-user" method="POST" style="display:inline;">
+            <input type="hidden" name="id_following" value="{{ searched_user.idUser }}">
+            <button type="submit">🔁 Follow/Unfollow</button>
+        </form>
+    </div>
+    {% endif %}
+
+    {% if viewed_user %}
+    <div class="post">
+        <div class="post-header">
+            <span><strong>ID:</strong> {{ viewed_user.idUser }}</span>
+            <span><strong>Status:</strong> {{ "Active" if viewed_user.status == 1 else "Inactive" }}</span>
+        </div>
+        <p class="post-text"><strong>Name:</strong> {{ viewed_user.name }} {{ viewed_user.lastname }}</p>
+        <p class="post-text"><strong>Email:</strong> {{ viewed_user.userMail }}</p>
+    </div>
+    {% endif %}
+    </main>
 </body>
 </html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - MySocialApp</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+</head>
+<body>
+    <div class="register-container">
+        <h2>Create an Account</h2>
+        <form action="/register" method="post">
+            <input type="text" name="Name" placeholder="First Name" required />
+            <input type="text" name="Lastname" placeholder="Last Name" required />
+            <input type="text" name="User_mail" placeholder="Email or Username" required>
+            <input type="password" name="Password" placeholder="Password" required />
+
+            <label for="Id_type">Account Type:</label>
+            <select name="Id_type" id="Id_type" required>
+                <option value="1">Personal</option>
+                <option value="2">Company</option>
+            </select>
+
+            <label for="Id_preferences">Preferences:</label>
+            <select name="Id_preferences" id="Id_preferences" required>
+                <option value="1">Music</option>
+                <option value="2">Travel</option>
+                <option value="3">Sports</option>
+                <option value="4">Movies</option>
+                <option value="5">Theater</option>
+                <option value="6">Comedy</option>
+            </select>
+
+            <button type="submit">Register</button>
+        </form>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <p class="flash {{ category }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+
+        <div class="login-link">
+            <p>Already have an account? <a href="/login">Log in here</a></p>
+        </div>
+    </div>
+</body>
+</html>

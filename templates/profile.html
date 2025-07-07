@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+</head>
+<body>
+
+<header>
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="/feed">Feed</a>
+            <a href="/profile">Profile</a>
+            <a href="/edit">Edit</a>
+            <a href="/following">Following</a>
+            <a href="/followers">Followers</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+</header>
+
+<main class="profile-container">
+
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="profile-header">
+        {% if photo_data %}
+            <img class="profile-photo" src="{{ photo_data }}" alt="Profile Photo">
+        {% else %}
+            <p>No profile photo available.</p>
+        {% endif %}
+    </div>
+
+    <div class="new-post">
+    <form action="/profile" method="post" enctype="multipart/form-data">
+        <textarea name="text" placeholder="What's on your mind?" rows="4" required></textarea>
+
+        <label class="custom-file-upload">
+            📷 Choose Image
+            <input type="file" name="image" accept="image/*" />
+        </label>
+
+        <button type="submit">Publish</button>
+        </form>
+    </div>
+
+    <div class="publications">
+        {% for pub in publications %}
+            <div class="post">
+                <div class="post-header">
+                    <span>{{ pub.Datepublish }}</span>
+                    <form method="post" action="/delete-publication" style="display: inline;">
+                        <input type="hidden" name="publication_id" value="{{ pub._id }}">
+                        <button class="delete-btn" type="submit">🗑</button>
+                    </form>
+                </div>
+                <div class="post-text">{{ pub.Text }}</div>
+                {% if pub.Multimedia %}
+                    <img class="post-image"
+                         src="data:{{ pub.Multimedia.content_type }};base64,{{ pub.Multimedia.image_base64 }}"
+                         alt="Post Image">
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feed - MySocialApp</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/feed.css') }}">
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="/feed">Feed</a>
+            <a href="/profile">Profile</a>
+            <a href="/chats">Chats</a>
+            <a href="/following">Following</a>
+            <a href="/followers">Followers</a>
+            <a href="/logout">Logout</a>
+        </div>
+        <div class="search-bar">
+            <form method="POST" action="/search-user" style="display: flex; align-items: center;">
+                <span>🔍</span>
+                <input type="text" name="user_mail" placeholder="Search user..." required>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+<main class="feed-container">
+    <h2>My Feed</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <p class="flash {{ category }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% for pub in publications %}
+        <div class="post">
+            <div class="post-header">
+                <span><strong>User:</strong> {{ pub.user_id }}</span>
+                <span><strong>Date:</strong> {{ pub.datepublish }}</span>
+            </div>
+
+            <p class="post-text">{{ pub.text }}</p>
+
+            {% if pub.image_base64 %}
+                <img class="post-image"
+                     src="data:image/jpeg;base64,{{ pub.image_base64 }}"
+                     alt="Publication Image">
+            {% endif %}
+
+            <div class="post-actions">
+                <form method="POST" action="/toggle-like" style="display:inline;">
+                    <input type="hidden" name="publication_id" value="{{ pub.publication_id }}">
+                    {% if pub.liked_by_user %}
+                        <button type="submit">💔 Unlike</button>
+                    {% else %}
+                        <button type="submit">👍 Like</button>
+                    {% endif %}
+                </form>
+                <span>❤️ {{ pub.likes }} likes</span>
+            </div>
+
+            <div class="comment-form">
+                <form method="POST" action="/comment">
+                    <input type="hidden" name="publication_id" value="{{ pub.publication_id }}">
+                    <input type="text" name="comment" placeholder="Write a comment..." required>
+                    <button type="submit">💬 Comment</button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% if searched_user %}
+    <div class="search-result">
+        <h3>🔎 Search Result:</h3>
+        <p><strong>{{ searched_user.name }} {{ searched_user.lastname }}</strong> ({{ searched_user.userMail }})</p>
+
+        <form action="/view-user" method="POST" style="display:inline;">
+            <input type="hidden" name="userMail" value="{{ searched_user.userMail }}">
+            <button type="submit">👁️ View Profile</button>
+        </form>
+
+        <form action="/follow-user" method="POST" style="display:inline;">
+            <input type="hidden" name="id_following" value="{{ searched_user.idUser }}">
+            <button type="submit">🔁 Follow/Unfollow</button>
+        </form>
+    </div>
+    {% endif %}
+
+    {% if viewed_user %}
+    <div class="post">
+        <div class="post-header">
+            <span><strong>ID:</strong> {{ viewed_user.idUser }}</span>
+            <span><strong>Status:</strong> {{ "Active" if viewed_user.status == 1 else "Inactive" }}</span>
+        </div>
+        <p class="post-text"><strong>Name:</strong> {{ viewed_user.name }} {{ viewed_user.lastname }}</p>
+        <p class="post-text"><strong>Email:</strong> {{ viewed_user.userMail }}</p>
+    </div>
+    {% endif %}
+    </main>
+</body>
+</html>

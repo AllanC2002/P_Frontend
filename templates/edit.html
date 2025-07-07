@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/edit.css') }}">
+</head>
+<body>
+
+<header>
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="/profile">Profile</a>
+        </div>
+    </nav>
+</header>
+
+<main class="edit-container">
+<div class="form-wrapper">
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <section class="edit-section">
+        <h2>Update Profile Photo</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% if photo_url %}
+                <img src="{{ photo_url }}" alt="Profile Photo" class="profile-pic">
+            {% else %}
+                <p>No profile photo available.</p>
+            {% endif %}
+            
+            <label class="custom-file-upload">
+                📷 Choose Image
+                <input type="file" name="new_photo" accept="image/*">
+            </label>
+
+            <button type="submit" name="action" value="update_photo">Upload Photo</button>
+        </form>
+    </section>
+
+    <section class="edit-section">
+        <h2>Edit Public Info</h2>
+        <form method="POST">
+            <label for="type">Account Type:</label>
+            <select name="type">
+                <option value="1" {% if user_data.type == 1 %}selected{% endif %}>Personal</option>
+                <option value="2" {% if user_data.type == 2 %}selected{% endif %}>Business</option>
+            </select>
+
+            <label for="preferences">Preferences:</label>
+            <select name="preferences">
+                <option value="1" {% if user_data.preferences == 1 %}selected{% endif %}>Music</option>
+                <option value="2" {% if user_data.preferences == 2 %}selected{% endif %}>Travel</option>
+                <option value="3" {% if user_data.preferences == 3 %}selected{% endif %}>Sports</option>
+                <option value="4" {% if user_data.preferences == 4 %}selected{% endif %}>Cinema</option>
+                <option value="5" {% if user_data.preferences == 5 %}selected{% endif %}>Theater</option>
+                <option value="6" {% if user_data.preferences == 6 %}selected{% endif %}>Comedy</option>
+            </select>
+
+            <label for="description">Description:</label>
+            <textarea name="description" placeholder="Describe yourself...">{{ user_data.description }}</textarea>
+
+            <button type="submit" name="action" value="update_info">Update Info</button>
+        </form>
+    </section>
+
+    <section class="edit-section">
+        <h2>Change Name or Password</h2>
+        <form method="POST">
+            <label for="name">Name:</label>
+            <input type="text" name="name" placeholder="Your name" value="{{ user_data.name }}">
+
+            <label for="lastname">Lastname:</label>
+            <input type="text" name="lastname" placeholder="Your last name" value="{{ user_data.lastname }}">
+
+            <label for="new_password">New Password:</label>
+            <input type="password" name="new_password" placeholder="New password">
+
+            <button type="submit" name="action" value="update_password">Update User</button>
+        </form>
+    </section>
+</div>
+</main>
+
+</body>
+</html>
